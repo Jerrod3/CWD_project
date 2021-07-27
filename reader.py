@@ -20,6 +20,7 @@ while count <= 10:
 # variable
 count = 0
 final_product = []
+devs = []
 while count <= 59:
     # create a list for each parameter per day
     param_1 = []
@@ -57,24 +58,31 @@ while count <= 59:
             else:
                 param_8.append(back)
             ticks = ticks + 1
-    transform = [param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8]
+    transform = [param_4]
     # create a list that contains each parameter list to be averaged
     averages = []
+    deviations = []
     # create a list of actual averages
     for param in transform:
-        average = mean(param)
-        averages.append(average)
+        no_zeros = []
+        for val in param:
+            if val < .0000001:
+                continue
+            else:
+                no_zeros.append(val)
+        avg_no_zeros = mean(no_zeros)
+        averages.append(avg_no_zeros)
+        sum_squares = sum([((val - avg_no_zeros) * (val - avg_no_zeros)) for val in no_zeros])
+        deviation = (sum_squares/ len(no_zeros)) ** .5
+        deviations.append(deviation)
+
     # append the day's averages for each parameter into an overarching list
     final_product.append(averages)
+    devs.append(deviations)
+
     # increment the day, wash rinse and repeat
     count =  count + 1
 
 print(final_product)
-
-
-
-
-
-
-
+print(devs)
 
